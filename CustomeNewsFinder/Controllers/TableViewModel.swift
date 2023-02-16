@@ -61,7 +61,6 @@ class TableViewModel {
         }
     }
     
-    
     func updateTheme(to theme: String) {
         self.theme = theme
     }
