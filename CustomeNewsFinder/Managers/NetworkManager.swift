@@ -22,7 +22,6 @@ class NetworkManagerImpl: NetworkManager {
         cache.countLimit = 15
         return cache
     }()
-    var test = 0
     
     init(mapper: MapNewsToObject, requestBilder: RequestBuilder) {
         self.mapper = mapper
@@ -56,7 +55,6 @@ class NetworkManagerImpl: NetworkManager {
         let urlObj = "\(urlForImage)"
         if let image = cacheDataSource.object(forKey: urlForImage as AnyObject) {
             completion(image)
-            
         } else {
             guard let urlImage = URL(string: urlObj) else {
                 return
