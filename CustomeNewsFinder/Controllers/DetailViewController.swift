@@ -43,8 +43,8 @@ class DetailViewController: UIViewController {
             }
         })
     }
-
-     func formatDate() {
+    
+    func formatDate() {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         guard let convertDate = formatter.date(from: labelDateNews.text ?? "") else { return }
@@ -55,13 +55,24 @@ class DetailViewController: UIViewController {
     }
     
     @objc func buttonTapped() {
+        animationTapt()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
         let controller = WebViewController()
-        if let url = urlToFullNews {
-            controller.newsURL = url
-            controller.selectedNews = labelTitle.text
-            self.navigationController?.pushViewController(controller, animated: true)
+            if let url = self.urlToFullNews {
+                controller.newsURL = url
+                controller.selectedNews = self.labelTitle.text
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
         }
     }
+    private func animationTapt() {
+        UIView.animate(withDuration: 0.3) {
+            self.button.backgroundColor = .green
+        } completion: { _ in
+            self.button.backgroundColor = .red
+        }
+    }
+    
 }
 
 extension DetailViewController {
@@ -96,7 +107,7 @@ extension DetailViewController {
         NSLayoutConstraint.activate([
             labelLoading.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
             labelLoading.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-
+            
         ])
         
         NSLayoutConstraint.activate([

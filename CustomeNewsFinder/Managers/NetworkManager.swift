@@ -100,7 +100,7 @@ private extension NetworkManagerImpl {
     }
 }
 
-class fakeNetworkManager: NetworkManager {
+class FakeNetworkManager: NetworkManager {
     func sendRequestForNews(theme: String, page: Int, completion: @escaping ([ObjectNewsData?]) -> Void) {
         completion([nil])
     }

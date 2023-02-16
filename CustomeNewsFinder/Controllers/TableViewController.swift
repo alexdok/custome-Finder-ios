@@ -55,7 +55,7 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
     
     func configureTableNews() {
         tableNews.rowHeight = 150
-        tableNews.estimatedRowHeight = 50
+        tableNews.estimatedRowHeight = 150
         tableNews.dataSource = self
         tableNews.delegate = self
         tableNews.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
@@ -88,9 +88,11 @@ extension TableViewController {
     
     private func reloadTableNews() {
         viewModel?.reloadData()
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableNews.scrollToRow(at: indexPath, at: .top, animated: true)
         tableNews.reloadData()
+        if viewModel?.data?.count ?? 0 > 1 {
+            let indexPath = IndexPath(row: 0, section: 0)
+            tableNews.scrollToRow(at: indexPath, at: .top, animated: true)
+        }
     }
     
     @objc func keyboardWillShow(notification: Notification) {
