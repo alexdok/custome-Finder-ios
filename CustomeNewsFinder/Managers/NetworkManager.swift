@@ -67,7 +67,7 @@ class NetworkManagerImpl: NetworkManager {
                     self.cacheDataSource.setObject(image, forKey: urlForImage as AnyObject)
                     image.jpegData(compressionQuality: 0.3)
                     completion(image)
-                }
+                } 
             }
             task.resume()
         }
@@ -96,7 +96,7 @@ class NetworkManagerImpl: NetworkManager {
 private extension NetworkManagerImpl {
     enum Constants {
         static let url = "https://newsapi.org/v2/everything"
-        static let apiKey = "e32a02b0b4ca4c49aea6c97506f25524"
+        static let apiKey = "2b2337c9845c48899dc172f67901e80c"
     }
 }
 

@@ -19,18 +19,25 @@ extension TableViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         guard let data = viewModel?.data else { return UITableViewCell() }
-        
         if let dataCell = data[indexPath.row] {
-            viewModel?.loadImage(linkToImageNews: dataCell.urlToImage ?? "", completion: { image in
-                DispatchQueue.main.async {
-                    cell.setupValueCell(objectForCell: dataCell, image: image )
-                }
-            })
+            cellConfig(data: dataCell, cell: cell)
             loadNewCells(indexPath: indexPath, data: data)
-            
             return cell
         } else {
             return UITableViewCell()
+        }
+    }
+    
+    private func cellConfig(data: ObjectNewsData, cell: NewsTableViewCell) {
+        cell.setLabelsCell(objectForCell: data)
+        if let urlToImage = data.urlToImage {
+            viewModel?.loadImage(linkToImageNews: urlToImage, completion: { image in
+                DispatchQueue.main.async {
+                    cell.setupImageCell(image: image )
+                }
+            })
+        } else {
+            cell.setupImageCell(image: UIImage(named: "noImage")!)
         }
     }
     
@@ -64,29 +71,19 @@ extension TableViewController: UITableViewDelegate {
         guard let data = viewModel?.data else { return }
        
         if let objectForLoad = takeData(url: data[indexPath.row]?.url ?? "") {
-            setValuesForNewController(saveObjectForSingleNews: objectForLoad, controller: controller)
+            controller.setValuesForController(saveObjectForSingleNews: objectForLoad)
         } else {
             let saveObjectForSingleNews = createSaveClassObject(data: data, indexPath: indexPath)
-            setValuesForNewController(saveObjectForSingleNews: saveObjectForSingleNews, controller: controller)
+            controller.setValuesForController(saveObjectForSingleNews: saveObjectForSingleNews)
         }
-       DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
            let saveObjectForSingleNews = self.createSaveClassObject(data: data, indexPath: indexPath)
-           self.setValuesForNewController(saveObjectForSingleNews: saveObjectForSingleNews, controller: controller)
+           controller.setValuesForController(saveObjectForSingleNews: saveObjectForSingleNews)
            controller.formatDate()
        }
         self.navigationController?.pushViewController(controller, animated: true)
     }
-    
-    private func setValuesForNewController(saveObjectForSingleNews: SaveDataForSingleNews?, controller: DetailViewController) {
-        controller.urlToImage = saveObjectForSingleNews?.urlToImage
-        controller.labelTitle.text = saveObjectForSingleNews?.title
-        controller.labelDetailNews.text = saveObjectForSingleNews?.description
-        controller.labelDateNews.text = saveObjectForSingleNews?.publishedAt
-        controller.labelNewsSource.text = saveObjectForSingleNews?.author
-        controller.setImage(urlImage: saveObjectForSingleNews?.urlToImage ?? "")
-        controller.urlToFullNews = saveObjectForSingleNews?.url
-    }
-    
+
     private func createSaveClassObject(data: [ObjectNewsData?], indexPath: IndexPath) -> SaveDataForSingleNews? {
         guard let saveKey = data[indexPath.row]?.url else { return nil }
         let saveClassObject = SaveDataForSingleNews(title: data[indexPath.row]?.title,
@@ -109,5 +106,4 @@ extension TableViewController: UITableViewDelegate {
         counter += 1
         SaveManagerImpl.shared.save(key, count: counter)
     }
-    
 }

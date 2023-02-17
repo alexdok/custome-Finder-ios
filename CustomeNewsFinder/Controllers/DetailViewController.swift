@@ -53,6 +53,15 @@ class DetailViewController: UIViewController {
         let newString = formatter.string(from: convertDate)
         labelDateNews.text = newString
     }
+    func setValuesForController(saveObjectForSingleNews: SaveDataForSingleNews?) {
+        urlToImage = saveObjectForSingleNews?.urlToImage
+        labelTitle.text = saveObjectForSingleNews?.title
+        labelDetailNews.text = saveObjectForSingleNews?.description
+        labelDateNews.text = saveObjectForSingleNews?.publishedAt
+        labelNewsSource.text = saveObjectForSingleNews?.author
+        setImage(urlImage: saveObjectForSingleNews?.urlToImage ?? "")
+        urlToFullNews = saveObjectForSingleNews?.url
+    }
     
     @objc func buttonTapped() {
         animationTapt()
