@@ -16,7 +16,7 @@ class TableViewModel {
     var loadNewData = false
     var newsObjectData = Bindable<[ObjectNewsData?]>([])
     var data: [ObjectNewsData?]?
-    var theme: String = "tesla"
+    var theme: String = "blizzard"
     
     init(networkManager: NetworkManager) {
         self.networkManager = networkManager
