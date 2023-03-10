@@ -60,7 +60,7 @@ class NetworkManagerImpl: NetworkManager {
                 return
             }
             let session = URLSession(configuration: .default)
-            let request = URLRequest(url: urlImage, cachePolicy: .returnCacheDataElseLoad)
+            let request = URLRequest(url: urlImage, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
             let task = session.dataTask(with: request) { (data, response, error) in
                 if let data = data, error == nil {
                     guard let image = UIImage(data: data) else { return }
@@ -75,9 +75,7 @@ class NetworkManagerImpl: NetworkManager {
     
     private func createParamsForRequest(theme: String, keyAPI: String, page: Int) -> [String: String] {
         let pageToString = String(page)
-        let date = NSDate()
-        let formater = DateFormatter()
-        formater.dateFormat = "yyyy-MM-dd"
+        let dateForNews = convertCurrentDateTostring()
         
         let URLParams = [
             "q": theme,
@@ -85,12 +83,24 @@ class NetworkManagerImpl: NetworkManager {
             "language": "en",
             "pageSize": "20",
             "page": pageToString,
-            "from":  formater.string(from: date as Date),
+            "from": dateForNews,
             "sortBy": "popularity",
             "apiKey": keyAPI
         ]
         return URLParams
     }
+}
+
+private func convertCurrentDateTostring() -> String {
+    let date = NSDate()
+    let formater = DateFormatter()
+    formater.dateFormat = "dd"
+    let dayCurrent = formater.string(from: date as Date)
+    let theDayBefore = "-\(Int(dayCurrent)! - 1 )"
+    formater.dateFormat = "yyyy-MM"
+    let newYearAndMonth = formater.string(from: date as Date)
+    let dateForNews = newYearAndMonth + theDayBefore
+    return dateForNews
 }
 
 private extension NetworkManagerImpl {

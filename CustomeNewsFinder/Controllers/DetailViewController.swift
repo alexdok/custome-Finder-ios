@@ -53,6 +53,7 @@ class DetailViewController: UIViewController {
         let newString = formatter.string(from: convertDate)
         labelDateNews.text = newString
     }
+    
     func setValuesForController(saveObjectForSingleNews: SaveDataForSingleNews?) {
         urlToImage = saveObjectForSingleNews?.urlToImage
         labelTitle.text = saveObjectForSingleNews?.title
@@ -74,6 +75,7 @@ class DetailViewController: UIViewController {
             }
         }
     }
+    
     private func animationTapt() {
         UIView.animate(withDuration: 0.3) {
             self.button.backgroundColor = .green

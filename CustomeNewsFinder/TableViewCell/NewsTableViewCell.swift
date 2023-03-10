@@ -15,9 +15,9 @@ class NewsTableViewCell: UITableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.numberOfLines = 8
+        label.numberOfLines = 6
         label.font = .systemFont(ofSize: 14)
-        label.minimumScaleFactor = 10
+        label.minimumScaleFactor = 8
         return label
     }()
     
