@@ -53,6 +53,13 @@ extension TableViewController: UITableViewDataSource {
             viewModel?.loadNewData = false
             tableNews.reloadData()
         }
+        
+        if indexPath.row == data.count - 1 && canNewLoad == false {
+            viewModel?.page = 0
+            viewModel?.loadNewPageNews()
+            viewModel?.loadNewData = false
+            tableNews.reloadData()
+        }
     }
 }
 
