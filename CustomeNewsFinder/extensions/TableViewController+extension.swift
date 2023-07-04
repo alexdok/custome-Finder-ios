@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension TableViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let data = viewModel?.data else { return 0}
         return data.count
@@ -18,6 +19,7 @@ extension TableViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsTableViewCell", for: indexPath) as? NewsTableViewCell else { print("fatalError(canot create cell)")
             return UITableViewCell()
         }
+        
         guard let data = viewModel?.data else { return UITableViewCell() }
         if let dataCell = data[indexPath.row] {
             cellConfig(data: dataCell, cell: cell)
@@ -46,8 +48,7 @@ extension TableViewController: UITableViewDataSource {
             viewModel?.loadNewData = true
         }
         guard let canNewLoad = viewModel?.loadNewData else { return }
-        if indexPath.row >= data.count - 1 && canNewLoad {
-            
+        if indexPath.row >= data.count - 1  && canNewLoad {
             viewModel?.loadNewPageNews()
             viewModel?.loadNewData = false
             tableNews.reloadData()
@@ -56,11 +57,12 @@ extension TableViewController: UITableViewDataSource {
 }
 
 extension TableViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         takeDataToNewController(indexPath: indexPath)
         if let dataUrl = viewModel?.data?[indexPath.row]?.title {
-            updateCounterLink(urlNews: dataUrl)
+            updateСlickСount(urlNews: dataUrl)
             tableNews.reloadData()
         }
     }
@@ -101,7 +103,7 @@ extension TableViewController: UITableViewDelegate {
         return loadValue
     }
     
-    private func updateCounterLink(urlNews key: String) {
+    private func updateСlickСount(urlNews key: String) {
         var counter = SaveManagerImpl.shared.loadCount(key)
         counter += 1
         SaveManagerImpl.shared.save(key, count: counter)

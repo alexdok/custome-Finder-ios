@@ -16,7 +16,7 @@ class TableViewModel {
     var loadNewData = false
     var newsObjectData = Bindable<[ObjectNewsData?]>([])
     var data: [ObjectNewsData?]?
-    var theme: String = "all"
+    var theme: String = "nhl"
     
     init(networkManager: NetworkManager) {
         self.networkManager = networkManager
@@ -44,9 +44,9 @@ class TableViewModel {
         page += 1
         print(page)
         networkManager.sendRequestForNews(theme: theme, page: page) { [weak self] data in
-            DispatchQueue.main.async {
-                self?.newsObjectData.value.append(contentsOf: data)
-            }
+                DispatchQueue.main.async {
+                    self?.newsObjectData.value.append(contentsOf: data)
+                }
         }
     }
     

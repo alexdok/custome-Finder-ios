@@ -106,7 +106,7 @@ private func convertCurrentDateToString() -> String {
 private extension NetworkManagerImpl {
     enum Constants {
         static let url = "https://newsapi.org/v2/everything"
-        static let apiKey = "2b2337c9845c48899dc172f67901e80c"
+        static let apiKey = "bd4291cebed94b898dd76406d634bac2"
     }
 }
 
