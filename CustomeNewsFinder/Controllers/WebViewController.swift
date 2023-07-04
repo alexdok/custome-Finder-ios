@@ -81,3 +81,4 @@ extension WebViewController: WKNavigationDelegate {
         hideProgressView()
     }
 }
+

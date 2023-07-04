@@ -34,7 +34,7 @@ class SaveDataForSingleNews: Codable {
     
     public func encode(to encoder: Encoder) throws { //упаковываем все проперти в контейнер
         var container = encoder.container(keyedBy: CodingKeys.self) //создаём контэйнер
-        try container.encode(self.author, forKey: .author) //отдельно свойство(проперти) упаковываем
+        try container.encode(self.author, forKey: .author) //отдельно свойство упаковываем
         try container.encode(self.title, forKey: .title)
         try container.encode(self.description, forKey: .description)
         try container.encode(self.url, forKey: .url)

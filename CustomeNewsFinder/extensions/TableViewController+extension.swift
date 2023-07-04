@@ -46,7 +46,7 @@ extension TableViewController: UITableViewDataSource {
             viewModel?.loadNewData = true
         }
         guard let canNewLoad = viewModel?.loadNewData else { return }
-        if indexPath.row >= data.count - 1 && canNewLoad{
+        if indexPath.row >= data.count - 1 && canNewLoad {
             
             viewModel?.loadNewPageNews()
             viewModel?.loadNewData = false

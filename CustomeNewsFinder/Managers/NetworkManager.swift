@@ -75,7 +75,7 @@ class NetworkManagerImpl: NetworkManager {
     
     private func createParamsForRequest(theme: String, keyAPI: String, page: Int) -> [String: String] {
         let pageToString = String(page)
-        let dateForNews = convertCurrentDateTostring()
+        let dateForNews = convertCurrentDateToString()
         
         let URLParams = [
             "q": theme,
@@ -91,14 +91,14 @@ class NetworkManagerImpl: NetworkManager {
     }
 }
 
-private func convertCurrentDateTostring() -> String {
+private func convertCurrentDateToString() -> String {
     let date = NSDate()
-    let formater = DateFormatter()
-    formater.dateFormat = "dd"
-    let dayCurrent = formater.string(from: date as Date)
+    let formatter = DateFormatter()
+    formatter.dateFormat = "dd"
+    let dayCurrent = formatter.string(from: date as Date)
     let theDayBefore = "-\(Int(dayCurrent)! - 1 )"
-    formater.dateFormat = "yyyy-MM"
-    let newYearAndMonth = formater.string(from: date as Date)
+    formatter.dateFormat = "yyyy-MM"
+    let newYearAndMonth = formatter.string(from: date as Date)
     let dateForNews = newYearAndMonth + theDayBefore
     return dateForNews
 }

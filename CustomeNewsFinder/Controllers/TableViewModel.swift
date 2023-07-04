@@ -16,13 +16,13 @@ class TableViewModel {
     var loadNewData = false
     var newsObjectData = Bindable<[ObjectNewsData?]>([])
     var data: [ObjectNewsData?]?
-    var theme: String = "usa"
+    var theme: String = "all"
     
     init(networkManager: NetworkManager) {
         self.networkManager = networkManager
     }
     
-    func viewIsready() {
+    func viewIsReady() {
         networkManager.sendRequestForNews(theme: theme, page: 1) { data in
             DispatchQueue.main.async {
                 self.newsObjectData.value = data
@@ -35,6 +35,7 @@ class TableViewModel {
             DispatchQueue.main.async {
                 self?.data = nil
                 self?.newsObjectData.value = data
+                self?.page = 1
             }
         }
     }
@@ -46,10 +47,6 @@ class TableViewModel {
             DispatchQueue.main.async {
                 self?.newsObjectData.value.append(contentsOf: data)
             }
-//            if data.count < 20 {
-//                self?.page = 0
-//                self?.loadNewPageNews()
-//            }
         }
     }
     

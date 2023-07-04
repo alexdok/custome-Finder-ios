@@ -46,9 +46,8 @@ class DetailViewController: UIViewController {
     
     func formatDate() {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" //        "2023-02-05T12:00:00Z"
         guard let convertDate = formatter.date(from: labelDateNews.text ?? "") else { return }
-        //        "2023-02-05T12:00:00Z"
         formatter.dateFormat = "dd.MMMM.yyyy"
         let newString = formatter.string(from: convertDate)
         labelDateNews.text = newString

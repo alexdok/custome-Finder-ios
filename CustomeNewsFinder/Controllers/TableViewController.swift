@@ -39,7 +39,7 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
             self?.tableNews.reloadData()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 if self?.viewModel?.data == nil || self?.viewModel?.data?.count ?? 0 == 0  {
-                    self?.navigationItem.title = "Bad Connection"
+                    self?.navigationItem.title = "News not found"
                 } else {
                     self?.navigationItem.title = "Table News"
                 }
@@ -55,7 +55,7 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
     
     func configureTableNews() {
         tableNews.rowHeight = 150
-        tableNews.estimatedRowHeight = 150
+        tableNews.estimatedRowHeight = UITableView.automaticDimension
         tableNews.dataSource = self
         tableNews.delegate = self
         tableNews.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
@@ -65,7 +65,7 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
         view.backgroundColor = .white
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        viewModel?.viewIsready()
+        viewModel?.viewIsReady()
         createTableNews()
         configureTableNews()
     }
@@ -100,7 +100,6 @@ extension TableViewController {
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         let keyboardHeight = keyboardFrame.height
         bottomConstraint?.constant = -keyboardHeight
-        
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
@@ -126,11 +125,11 @@ extension TableViewController {
     // MARK: - set constraints
     func createTableNews() {
         view.addSubview(tableNews)
-        searchBar.delegate = self
-        searchBar.placeholder = "Search"
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchBar)
         tableNews.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.delegate = self
+        searchBar.placeholder = "Search"
         
         bottomConstraint = searchBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         bottomConstraint?.isActive = true

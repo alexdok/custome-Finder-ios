@@ -91,6 +91,15 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		903C690729E80F14008C6358 /* userDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				902A2A9E299CEB6100860049 /* UserDefaults+extension.swift */,
+				902A2A9C299CD69400860049 /* SaveDataForSingleNews.swift */,
+			);
+			path = userDefaults;
+			sourceTree = "<group>";
+		};
 		90C4D78129950F0A00E60FEB = {
 			isa = PBXGroup;
 			children = (
@@ -150,8 +159,7 @@
 			children = (
 				90FA48262998E0BB0066B53D /* URL+extension.swift */,
 				90FA48282998E0EA0066B53D /* Dictionary+extension.swift */,
-				902A2A9C299CD69400860049 /* SaveDataForSingleNews.swift */,
-				902A2A9E299CEB6100860049 /* UserDefaults+extension.swift */,
+				903C690729E80F14008C6358 /* userDefaults */,
 				90FA482D2998EEBE0066B53D /* TableViewController+extension.swift */,
 			);
 			path = extensions;
