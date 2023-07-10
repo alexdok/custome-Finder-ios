@@ -23,13 +23,13 @@ final class CustomeNewsFinderTests: XCTestCase {
     
     func testloadNewPageNews() {
         // given
-        let page = sut.page
+        let page = sut.page + 1
 
         // when
         sut.loadNewPageNews()
 
         // then
-        XCTAssertEqual(sut.page, 2, "page is not next")
+        XCTAssertEqual(page, sut.page, "page is not next")
     }
 
 
