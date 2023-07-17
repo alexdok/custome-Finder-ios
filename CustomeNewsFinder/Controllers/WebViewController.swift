@@ -9,6 +9,7 @@ class WebViewController: UIViewController {
     
     var progressView = UIProgressView()
     var webView = WKWebView(frame: CGRect(origin: .zero, size: .zero))
+    private var observation: NSKeyValueObservation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,16 +19,21 @@ class WebViewController: UIViewController {
         title = selectedNews
         
         guard let url = URL(string: newsURL) else { return }
-        let request = URLRequest(url: url)
         
-        webView.load(request)
         webView.allowsBackForwardNavigationGestures = true
         webView.navigationDelegate = self
-        webView.addObserver(self,
-                            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-                            options: .new,
-                            context: nil)
+        
+        let observation = webView.observe(\.estimatedProgress) { [weak self] webView, _ in
+            self?.progressView.progress = Float(webView.estimatedProgress)
+        }
+        
+        webView.load(URLRequest(url: url))
+        
+        // Сохраняем ссылку на observation, чтобы его наблюдение продолжалось
+        // до конца жизненного цикла контроллера
+        self.observation = observation
     }
+
     
     override func observeValue(forKeyPath keyPath: String?,
                                of object: Any?,
