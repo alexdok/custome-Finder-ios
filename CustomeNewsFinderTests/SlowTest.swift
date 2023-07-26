@@ -9,6 +9,9 @@ class FakesMapper: MapNewsToObject {
     }
 }
 
+
+
+
 class FakeRequestBuilder: RequestBuilder {
     func createRequestFrom(url: String, params: [String: String]) -> URLRequest? {
         // Вернуть фейковый URLRequest для тестирования
