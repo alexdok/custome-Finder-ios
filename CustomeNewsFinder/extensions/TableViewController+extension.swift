@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension TableViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let data = viewModel?.data else { return 0}
         return data.count
@@ -18,19 +19,27 @@ extension TableViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsTableViewCell", for: indexPath) as? NewsTableViewCell else { print("fatalError(canot create cell)")
             return UITableViewCell()
         }
-        guard let data = viewModel?.data else { return UITableViewCell() }
         
+        guard let data = viewModel?.data else { return UITableViewCell() }
         if let dataCell = data[indexPath.row] {
-            viewModel?.loadImage(linkToImageNews: dataCell.urlToImage ?? "", completion: { image in
-                DispatchQueue.main.async {
-                    cell.setupValueCell(objectForCell: dataCell, image: image )
-                }
-            })
+            cellConfig(data: dataCell, cell: cell)
             loadNewCells(indexPath: indexPath, data: data)
-            
             return cell
         } else {
             return UITableViewCell()
+        }
+    }
+    
+    private func cellConfig(data: ObjectNewsData, cell: NewsTableViewCell) {
+        cell.setLabelsCell(objectForCell: data)
+        if let urlToImage = data.urlToImage {
+            viewModel?.loadImage(linkToImageNews: urlToImage, completion: { image in
+                DispatchQueue.main.async {
+                    cell.setupImageCell(image: image )
+                }
+            })
+        } else {
+            cell.setupImageCell(image: UIImage(named: "noImage")!)
         }
     }
     
@@ -39,8 +48,13 @@ extension TableViewController: UITableViewDataSource {
             viewModel?.loadNewData = true
         }
         guard let canNewLoad = viewModel?.loadNewData else { return }
-        if indexPath.row >= data.count - 1 && canNewLoad{
-            
+        if indexPath.row >= data.count - 1  && canNewLoad {
+            viewModel?.loadNewPageNews()
+            viewModel?.loadNewData = false
+            tableNews.reloadData()
+        }
+        if indexPath.row == data.count - 1 && canNewLoad == false {
+            viewModel?.page = 0
             viewModel?.loadNewPageNews()
             viewModel?.loadNewData = false
             tableNews.reloadData()
@@ -49,11 +63,12 @@ extension TableViewController: UITableViewDataSource {
 }
 
 extension TableViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         takeDataToNewController(indexPath: indexPath)
         if let dataUrl = viewModel?.data?[indexPath.row]?.title {
-            updateCounterLink(urlNews: dataUrl)
+            updateСlickСount(urlNews: dataUrl)
             tableNews.reloadData()
         }
     }
@@ -64,29 +79,19 @@ extension TableViewController: UITableViewDelegate {
         guard let data = viewModel?.data else { return }
        
         if let objectForLoad = takeData(url: data[indexPath.row]?.url ?? "") {
-            setValuesForNewController(saveObjectForSingleNews: objectForLoad, controller: controller)
+            controller.setValuesForController(saveObjectForSingleNews: objectForLoad)
         } else {
             let saveObjectForSingleNews = createSaveClassObject(data: data, indexPath: indexPath)
-            setValuesForNewController(saveObjectForSingleNews: saveObjectForSingleNews, controller: controller)
+            controller.setValuesForController(saveObjectForSingleNews: saveObjectForSingleNews)
         }
-       DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
            let saveObjectForSingleNews = self.createSaveClassObject(data: data, indexPath: indexPath)
-           self.setValuesForNewController(saveObjectForSingleNews: saveObjectForSingleNews, controller: controller)
+           controller.setValuesForController(saveObjectForSingleNews: saveObjectForSingleNews)
            controller.formatDate()
        }
         self.navigationController?.pushViewController(controller, animated: true)
     }
-    
-    private func setValuesForNewController(saveObjectForSingleNews: SaveDataForSingleNews?, controller: DetailViewController) {
-        controller.urlToImage = saveObjectForSingleNews?.urlToImage
-        controller.labelTitle.text = saveObjectForSingleNews?.title
-        controller.labelDetailNews.text = saveObjectForSingleNews?.description
-        controller.labelDateNews.text = saveObjectForSingleNews?.publishedAt
-        controller.labelNewsSource.text = saveObjectForSingleNews?.author
-        controller.setImage(urlImage: saveObjectForSingleNews?.urlToImage ?? "")
-        controller.urlToFullNews = saveObjectForSingleNews?.url
-    }
-    
+
     private func createSaveClassObject(data: [ObjectNewsData?], indexPath: IndexPath) -> SaveDataForSingleNews? {
         guard let saveKey = data[indexPath.row]?.url else { return nil }
         let saveClassObject = SaveDataForSingleNews(title: data[indexPath.row]?.title,
@@ -104,10 +109,9 @@ extension TableViewController: UITableViewDelegate {
         return loadValue
     }
     
-    private func updateCounterLink(urlNews key: String) {
+    private func updateСlickСount(urlNews key: String) {
         var counter = SaveManagerImpl.shared.loadCount(key)
         counter += 1
         SaveManagerImpl.shared.save(key, count: counter)
     }
-    
 }

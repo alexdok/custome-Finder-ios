@@ -36,6 +36,10 @@ class DetailViewController: UIViewController {
         }
     }
     
+     deinit {
+        print("detail view controller away")
+    }
+    
     func setImage(urlImage: String) {
         networkManager?.loadImage(urlForImage: urlImage, completion: { [weak self] image in
             DispatchQueue.main.async {
@@ -43,25 +47,46 @@ class DetailViewController: UIViewController {
             }
         })
     }
-
-     func formatDate() {
+    
+    func formatDate() {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" //        "2023-02-05T12:00:00Z"
         guard let convertDate = formatter.date(from: labelDateNews.text ?? "") else { return }
-        //        "2023-02-05T12:00:00Z"
         formatter.dateFormat = "dd.MMMM.yyyy"
         let newString = formatter.string(from: convertDate)
         labelDateNews.text = newString
     }
     
+    func setValuesForController(saveObjectForSingleNews: SaveDataForSingleNews?) {
+        urlToImage = saveObjectForSingleNews?.urlToImage
+        labelTitle.text = saveObjectForSingleNews?.title
+        labelDetailNews.text = saveObjectForSingleNews?.description
+        labelDateNews.text = saveObjectForSingleNews?.publishedAt
+        labelNewsSource.text = saveObjectForSingleNews?.author
+        setImage(urlImage: saveObjectForSingleNews?.urlToImage ?? "")
+        urlToFullNews = saveObjectForSingleNews?.url
+    }
+    
     @objc func buttonTapped() {
+        animationTapt()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
         let controller = WebViewController()
-        if let url = urlToFullNews {
-            controller.newsURL = url
-            controller.selectedNews = labelTitle.text
-            self.navigationController?.pushViewController(controller, animated: true)
+            if let url = self.urlToFullNews {
+                controller.newsURL = url
+                controller.selectedNews = self.labelTitle.text
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
         }
     }
+    
+    private func animationTapt() {
+        UIView.animate(withDuration: 0.3) {
+            self.button.backgroundColor = .green
+        } completion: { _ in
+            self.button.backgroundColor = .red
+        }
+    }
+    
 }
 
 extension DetailViewController {
@@ -96,11 +121,11 @@ extension DetailViewController {
         NSLayoutConstraint.activate([
             labelLoading.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
             labelLoading.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-
+            
         ])
         
         NSLayoutConstraint.activate([
-            labelTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            labelTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             labelTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             labelTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             

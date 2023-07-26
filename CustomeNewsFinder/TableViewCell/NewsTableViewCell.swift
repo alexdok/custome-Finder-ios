@@ -15,8 +15,9 @@ class NewsTableViewCell: UITableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.numberOfLines = 8
+        label.numberOfLines = 6
         label.font = .systemFont(ofSize: 14)
+        label.minimumScaleFactor = 8
         return label
     }()
     
@@ -43,9 +44,11 @@ class NewsTableViewCell: UITableViewCell {
         linkCountLabel.text = nil
     }
     
-    func setupValueCell(objectForCell: ObjectNewsData, image: UIImage) {
-        let countOfClickOnLink = saveManager.loadCount(objectForCell.title ?? "")
+    func setupImageCell(image: UIImage) {
         self.imageCell.image = image
+    }
+    func setLabelsCell(objectForCell: ObjectNewsData) {
+        let countOfClickOnLink = saveManager.loadCount(objectForCell.title ?? "")
         self.linkCountLabel.text = "\(countOfClickOnLink )"
         self.titleLabel.text = objectForCell.title
     }

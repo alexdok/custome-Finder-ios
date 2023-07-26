@@ -23,10 +23,10 @@ class SaveDataForSingleNews: Codable {
     
     required public init(from decoder: Decoder) throws {  //распаковываем
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.author = try container.decodeIfPresent(String.self, forKey: .author) // контайнер достаньстроку по ключу name и запиши в self.name
+        self.author = try container.decodeIfPresent(String.self, forKey: .author)
         self.title = try container.decodeIfPresent(String.self, forKey: .title)
         self.description = try container.decodeIfPresent(String.self, forKey: .description)
-        self.url = try container.decodeIfPresent(String.self, forKey: .url)  // для опционалов decodeIfPresent
+        self.url = try container.decodeIfPresent(String.self, forKey: .url)
         self.urlToImage = try container.decodeIfPresent(String.self, forKey: .urlToImage)
         self.publishedAt = try container.decodeIfPresent(String.self, forKey: .publishedAt)
         self.content = try container.decodeIfPresent(String.self, forKey: .content)
@@ -34,7 +34,7 @@ class SaveDataForSingleNews: Codable {
     
     public func encode(to encoder: Encoder) throws { //упаковываем все проперти в контейнер
         var container = encoder.container(keyedBy: CodingKeys.self) //создаём контэйнер
-        try container.encode(self.author, forKey: .author) //отдельно свойство(проперти) упаковываем
+        try container.encode(self.author, forKey: .author) //отдельно свойство упаковываем
         try container.encode(self.title, forKey: .title)
         try container.encode(self.description, forKey: .description)
         try container.encode(self.url, forKey: .url)
