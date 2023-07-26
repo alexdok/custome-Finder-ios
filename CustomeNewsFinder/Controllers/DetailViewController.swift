@@ -36,6 +36,10 @@ class DetailViewController: UIViewController {
         }
     }
     
+     deinit {
+        print("detail view controller away")
+    }
+    
     func setImage(urlImage: String) {
         networkManager?.loadImage(urlForImage: urlImage, completion: { [weak self] image in
             DispatchQueue.main.async {
@@ -121,7 +125,7 @@ extension DetailViewController {
         ])
         
         NSLayoutConstraint.activate([
-            labelTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            labelTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             labelTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             labelTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
