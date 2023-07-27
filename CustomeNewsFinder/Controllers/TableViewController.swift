@@ -34,6 +34,9 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
     }
     
     func bind() {
+        if !(viewModel?.viewIsReady() ?? true) {
+            createAlertController()
+        }
         viewModel?.newsObjectData.bind({ [weak self] object in
             self?.viewModel?.data = object
             self?.tableNews.reloadData()
@@ -65,9 +68,15 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
         view.backgroundColor = .white
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        viewModel?.viewIsReady()
         createTableNews()
         configureTableNews()
+    }
+    
+    private func createAlertController() {
+        let alretController = UIAlertController(title: "No internet connection", message: "Please check your internet connection", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "ok", style: .default)
+        alretController.addAction(okButton)
+        present(alretController, animated: true)
     }
     
     @objc func refresh(_ sender: AnyObject) {
