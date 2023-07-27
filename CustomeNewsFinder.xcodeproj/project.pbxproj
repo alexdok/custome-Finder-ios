@@ -17,7 +17,6 @@
 		907CF2932A71680100C9113B /* FakeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907CF2902A71680100C9113B /* FakeMapper.swift */; };
 		907CF2952A71684500C9113B /* TableViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907CF2942A71684500C9113B /* TableViewController+extension.swift */; };
 		90A808EA2A724C9D00431A1B /* WebViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A808E92A724C9D00431A1B /* WebViewController+extension.swift */; };
-		90A808EC2A72521B00431A1B /* trash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A808EB2A72521B00431A1B /* trash.swift */; };
 		90C4D78E29950F0A00E60FEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C4D78D29950F0A00E60FEB /* AppDelegate.swift */; };
 		90C4D79229950F0A00E60FEB /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C4D79129950F0A00E60FEB /* TableViewController.swift */; };
 		90C4D79729950F0C00E60FEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90C4D79629950F0C00E60FEB /* Assets.xcassets */; };
@@ -56,7 +55,6 @@
 		907CF2902A71680100C9113B /* FakeMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeMapper.swift; sourceTree = "<group>"; };
 		907CF2942A71684500C9113B /* TableViewController+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TableViewController+extension.swift"; sourceTree = "<group>"; };
 		90A808E92A724C9D00431A1B /* WebViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebViewController+extension.swift"; sourceTree = "<group>"; };
-		90A808EB2A72521B00431A1B /* trash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = trash.swift; sourceTree = "<group>"; };
 		90C4D78A29950F0A00E60FEB /* CustomeNewsFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomeNewsFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90C4D78D29950F0A00E60FEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90C4D79129950F0A00E60FEB /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 				90FA48262998E0BB0066B53D /* URL+extension.swift */,
 				907CF2942A71684500C9113B /* TableViewController+extension.swift */,
 				90FA48282998E0EA0066B53D /* Dictionary+extension.swift */,
-				90A808EB2A72521B00431A1B /* trash.swift */,
 				90A808E92A724C9D00431A1B /* WebViewController+extension.swift */,
 				903C690729E80F14008C6358 /* userDefaults */,
 			);
@@ -313,7 +310,6 @@
 				90FA48322998FD0E0066B53D /* Bindable.swift in Sources */,
 				902A2A9D299CD69400860049 /* SaveDataForSingleNews.swift in Sources */,
 				90A808EA2A724C9D00431A1B /* WebViewController+extension.swift in Sources */,
-				90A808EC2A72521B00431A1B /* trash.swift in Sources */,
 				9013D551299A2A78000BD610 /* DetailViewController.swift in Sources */,
 				90C4D79229950F0A00E60FEB /* TableViewController.swift in Sources */,
 				90C4D78E29950F0A00E60FEB /* AppDelegate.swift in Sources */,
