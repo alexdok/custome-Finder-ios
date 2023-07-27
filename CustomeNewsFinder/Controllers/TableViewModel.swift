@@ -17,17 +17,22 @@ class TableViewModel {
     var newsObjectData = Bindable<[ObjectNewsData?]>([])
     var data: [ObjectNewsData?]?
     var theme: String = "nhl"
+    let networkMonitor = NetworkMonitor.shared
     
     init(networkManager: NetworkManager) {
         self.networkManager = networkManager
     }
     
-    func viewIsReady() {
-        networkManager.sendRequestForNews(theme: theme, page: 1) { data in
-            DispatchQueue.main.async {
-                self.newsObjectData.value = data
+    func viewIsReady() -> Bool {
+        networkMonitor.startMonitoring()
+        if networkMonitor.isReachable {
+            networkManager.sendRequestForNews(theme: theme, page: 1) { data in
+                DispatchQueue.main.async {
+                    self.newsObjectData.value = data
+                }
             }
         }
+        return networkMonitor.isReachable
     }
     
     func reloadData() {

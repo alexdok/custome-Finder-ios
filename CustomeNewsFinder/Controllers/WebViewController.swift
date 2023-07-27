@@ -60,31 +60,16 @@ class WebViewController: UIViewController {
         ])
     }
     
-    private func showProgressView() {
+    func showProgressView() {
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             self.progressView.alpha = 1
         }, completion: nil)
     }
     
-    private func hideProgressView() {
+    func hideProgressView() {
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             self.progressView.alpha = 0
         }, completion: nil)
-    }
-}
-
-extension WebViewController: WKNavigationDelegate {
-    
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        showProgressView()
-    }
-    
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        hideProgressView()
-    }
-    
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        hideProgressView()
     }
 }
 
