@@ -41,11 +41,8 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
             self?.viewModel?.data = object
             self?.tableNews.reloadData()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                if self?.viewModel?.data == nil || self?.viewModel?.data?.count ?? 0 == 0  {
-                    self?.navigationItem.title = "News not found"
-                } else {
                     self?.navigationItem.title = "Table News"
-                }
+                
             }
         })
     }
