@@ -49,15 +49,15 @@ extension TableViewController: UITableViewDataSource {
             viewModel?.loadNewData = true
         }
         guard let canNewLoad = viewModel?.loadNewData else { return }
-        if indexPath.row >= data.count - 1  && canNewLoad {
+        if indexPath.row >= data.count - 2  && canNewLoad {
             viewModel?.loadNewPageNews()
             viewModel?.loadNewData = false
             tableNews.reloadData()
         }
-        if indexPath.row == data.count - 1 && canNewLoad == false {
+        if indexPath.row == data.count - 2 && canNewLoad == false && viewModel?.page != 1 {
             viewModel?.page = 0
-            viewModel?.loadNewPageNews()
             viewModel?.loadNewData = false
+            viewModel?.loadNewPageNews()
             tableNews.reloadData()
         }
     }

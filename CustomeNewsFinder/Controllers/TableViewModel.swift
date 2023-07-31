@@ -59,9 +59,7 @@ class TableViewModel {
         let group = DispatchGroup()
         group.enter()
         networkManager.loadImage(urlForImage: linkToImageNews) {  image in
-            DispatchQueue.main.async {
-                completion(image)
-            }
+            completion(image)
             group.leave()
         }
     }
