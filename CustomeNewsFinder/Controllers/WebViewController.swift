@@ -34,7 +34,6 @@ class WebViewController: UIViewController {
         self.observation = observation
     }
 
-    
     override func observeValue(forKeyPath keyPath: String?,
                                of object: Any?,
                                change: [NSKeyValueChangeKey : Any]?,

@@ -16,7 +16,7 @@ class TableViewModel {
     var loadNewData = false
     var newsObjectData = Bindable<[ObjectNewsData?]>([])
     var data: [ObjectNewsData?]?
-    var theme: String = "nhl"
+    var theme: String = "tesla"
     let networkMonitor = NetworkMonitor.shared
     
     init(networkManager: NetworkManager) {
@@ -56,10 +56,13 @@ class TableViewModel {
     }
     
     func loadImage(linkToImageNews: String,  completion: @escaping (UIImage) -> Void) {
+        let group = DispatchGroup()
+        group.enter()
         networkManager.loadImage(urlForImage: linkToImageNews) {  image in
             DispatchQueue.main.async {
                 completion(image)
             }
+            group.leave()
         }
     }
     
