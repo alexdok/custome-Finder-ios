@@ -44,6 +44,7 @@ extension TableViewController: UITableViewDataSource {
     }
     
     private func loadNewCells(indexPath:IndexPath, data: [ObjectNewsData?]) {
+        guard data.count > 5 else { return }
         if indexPath.row == data.count - 10 {
             viewModel?.loadNewData = true
         }
