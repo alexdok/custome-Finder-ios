@@ -52,27 +52,35 @@ class NetworkManagerImpl: NetworkManager {
     }
     
     func loadImage(urlForImage: String, completion: @escaping (UIImage) -> Void) {
-        let urlObj = "\(urlForImage)"
-        if let image = cacheDataSource.object(forKey: urlForImage as AnyObject) {
+        if let image = cacheDataSource.object(forKey: urlForImage as AnyObject) as? UIImage {
+            // Изображение найдено в кэше
             completion(image)
         } else {
-            guard let urlImage = URL(string: urlObj) else {
+            guard let urlImage = URL(string: urlForImage) else {
                 return
             }
             let session = URLSession(configuration: .default)
             let request = URLRequest(url: urlImage, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
-            let task = session.dataTask(with: request) { (data, response, error) in
+            let task = session.dataTask(with: request) { [weak self] (data, response, error) in
+                guard let self = self else { return }
+
                 if let data = data, error == nil {
                     guard let image = UIImage(data: data) else { return }
+
+                    // Сохраняем загруженное изображение в кэше
                     self.cacheDataSource.setObject(image, forKey: urlForImage as AnyObject)
-                    image.jpegData(compressionQuality: 0.3)
+
+                    // Дополнительно: Вы можете сжать изображение перед сохранением в кэш, если это необходимо
+                    // let compressedImage = image.jpegData(compressionQuality: 0.3)
+                    // self.cacheDataSource.setObject(compressedImage as AnyObject, forKey: urlForImage as AnyObject)
+
                     completion(image)
-                } 
+                }
             }
             task.resume()
         }
     }
-    
+
     private func createParamsForRequest(theme: String, keyAPI: String, page: Int) -> [String: String] {
         let pageToString = String(page)
         let dateForNews = convertCurrentDateToString()
