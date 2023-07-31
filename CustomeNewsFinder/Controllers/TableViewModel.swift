@@ -24,7 +24,7 @@ class TableViewModel {
     }
     
     func viewIsReady() -> Bool {
-        networkMonitor.startMonitoring()
+     //   networkMonitor.startMonitoring()
         if networkMonitor.isReachable {
             networkManager.sendRequestForNews(theme: theme, page: 1) { data in
                 DispatchQueue.main.async {
