@@ -52,7 +52,7 @@ class NetworkManagerImpl: NetworkManager {
     }
     
     func loadImage(urlForImage: String, completion: @escaping (UIImage) -> Void) {
-        if let image = cacheDataSource.object(forKey: urlForImage as AnyObject) as? UIImage {
+        if let image = cacheDataSource.object(forKey: urlForImage as AnyObject) {
             // Изображение найдено в кэше
             completion(image)
         } else {
@@ -68,13 +68,16 @@ class NetworkManagerImpl: NetworkManager {
                     guard let image = UIImage(data: data) else { return }
 
                     // Сохраняем загруженное изображение в кэше
-                    self.cacheDataSource.setObject(image, forKey: urlForImage as AnyObject)
-
-                    // Дополнительно: Вы можете сжать изображение перед сохранением в кэш, если это необходимо
-                    // let compressedImage = image.jpegData(compressionQuality: 0.3)
-                    // self.cacheDataSource.setObject(compressedImage as AnyObject, forKey: urlForImage as AnyObject)
-
+                self.cacheDataSource.setObject(image, forKey: urlForImage as AnyObject)
+                    // Cжать изображение перед сохранением в кэш, если это необходимо
+                let compressedImage = image.jpegData(compressionQuality: 0.3)
+                if let data = compressedImage {
+                let image = UIImage(data: data)
+                        self.cacheDataSource.setObject(image ?? UIImage(), forKey: urlForImage as AnyObject)
+                    completion(image ?? UIImage())
+                } else {
                     completion(image)
+                    }
                 }
             }
             task.resume()

@@ -5,7 +5,6 @@
 //  Created by алексей ганзицкий on 12.02.2023.
 //
 
-import Foundation
 import UIKit
 
 class TableViewModel {
@@ -24,7 +23,7 @@ class TableViewModel {
     }
     
     func viewIsReady() -> Bool {
-     //   networkMonitor.startMonitoring()
+       // networkMonitor.startMonitoring()
         if networkMonitor.isReachable {
             networkManager.sendRequestForNews(theme: theme, page: 1) { data in
                 DispatchQueue.main.async {
