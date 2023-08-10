@@ -56,31 +56,43 @@ class NetworkManagerImpl: NetworkManager {
             // Изображение найдено в кэше
             completion(image)
         } else {
-            guard let urlImage = URL(string: urlForImage) else {
-                return
-            }
-            let session = URLSession(configuration: .default)
-            let request = URLRequest(url: urlImage, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
-            let task = session.dataTask(with: request) { [weak self] (data, response, error) in
-                guard let self = self else { return }
+            downloadImageFromURL(urlForImage: urlForImage, completion: completion)
+        }
+    }
 
-                if let data = data, error == nil {
-                    guard let image = UIImage(data: data) else { return }
-
-                    // Сохраняем загруженное изображение в кэше
-                self.cacheDataSource.setObject(image, forKey: urlForImage as AnyObject)
-                    // Cжать изображение перед сохранением в кэш, если это необходимо
-                let compressedImage = image.jpegData(compressionQuality: 0.3)
-                if let data = compressedImage {
-                let image = UIImage(data: data)
-                        self.cacheDataSource.setObject(image ?? UIImage(), forKey: urlForImage as AnyObject)
-                    completion(image ?? UIImage())
-                } else {
-                    completion(image)
-                    }
-                }
+    func downloadImageFromURL(urlForImage: String, completion: @escaping (UIImage) -> Void) {
+        guard let urlImage = URL(string: urlForImage) else {
+            return
+        }
+        
+        let session = URLSession(configuration: .default)
+        let request = URLRequest(url: urlImage, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
+        
+        let task = session.dataTask(with: request) { [weak self] (data, response, error) in
+            guard let self = self else { return }
+            
+            if let data = data, error == nil {
+                guard let image = UIImage(data: data) else { return }
+                
+                self.saveImageToCache(image, forKey: urlForImage)
+                self.compressAndCacheImage(image, forKey: urlForImage)
+                
+                completion(image)
             }
-            task.resume()
+        }
+        
+        task.resume()
+    }
+
+    func saveImageToCache(_ image: UIImage, forKey key: String) {
+        cacheDataSource.setObject(image, forKey: key as AnyObject)
+    }
+
+    func compressAndCacheImage(_ image: UIImage, forKey key: String) {
+        let compressedImage = image.jpegData(compressionQuality: 0.3)
+        
+        if let data = compressedImage, let compressedImage = UIImage(data: data) {
+            cacheDataSource.setObject(compressedImage, forKey: key as AnyObject)
         }
     }
 
