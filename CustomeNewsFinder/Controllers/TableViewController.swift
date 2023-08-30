@@ -42,7 +42,6 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
             self?.tableNews.reloadData()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self?.navigationItem.title = "Table News"
-                
             }
         })
     }

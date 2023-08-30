@@ -74,7 +74,6 @@ class NetworkManagerImpl: NetworkManager {
             if let data = data, error == nil {
                 guard let image = UIImage(data: data) else { return }
                 
-                self.saveImageToCache(image, forKey: urlForImage)
                 self.compressAndCacheImage(image, forKey: urlForImage)
                 
                 completion(image)
@@ -82,10 +81,6 @@ class NetworkManagerImpl: NetworkManager {
         }
         
         task.resume()
-    }
-
-    func saveImageToCache(_ image: UIImage, forKey key: String) {
-        cacheDataSource.setObject(image, forKey: key as AnyObject)
     }
 
     func compressAndCacheImage(_ image: UIImage, forKey key: String) {

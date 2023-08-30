@@ -176,8 +176,8 @@
 		90FA482A2998EDEA0066B53D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				90FA482F2998F1F90066B53D /* TableViewModel.swift */,
 				90C4D79129950F0A00E60FEB /* TableViewController.swift */,
+				90FA482F2998F1F90066B53D /* TableViewModel.swift */,
 				9013D550299A2A78000BD610 /* DetailViewController.swift */,
 				9013D552299A4F89000BD610 /* WebViewController.swift */,
 				90FA48312998FD0E0066B53D /* Bindable.swift */,

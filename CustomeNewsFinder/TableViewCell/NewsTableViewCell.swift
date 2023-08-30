@@ -11,7 +11,13 @@ class NewsTableViewCell: UITableViewCell {
     
     private let saveManager = SaveManagerImpl.shared
     
-    let imageCell = UIImageView()
+    let imageCell: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
     var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
