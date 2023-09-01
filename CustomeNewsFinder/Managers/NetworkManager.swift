@@ -41,7 +41,6 @@ class NetworkManagerImpl: NetworkManager {
                     let objectNews = self.mapper.map(news)
                     var objectNewsFinish = [ObjectNewsData]()
                     for n in objectNews {
-                        print(n)
                         if n?.title != nil {
                             objectNewsFinish.append(n ?? ObjectNewsData())
                         }
@@ -100,7 +99,8 @@ class NetworkManagerImpl: NetworkManager {
 
     private func createParamsForRequest(theme: String, keyAPI: String, page: Int) -> [String: String] {
         let pageToString = String(page)
-        let dateForNews = convertCurrentDateToString()
+        let dateForNewsToday = convertCurrentDateToString(day: .today)
+        let dateForNewsYesterday = convertCurrentDateToString(day: .yesterday)
         
         let URLParams = [
             "q": theme,
@@ -108,8 +108,8 @@ class NetworkManagerImpl: NetworkManager {
             "language": "en",
             "pageSize": "20",
             "page": pageToString,
-            "from": "2023-08-31",
-            "to": dateForNews,
+            "from": dateForNewsYesterday,
+            "to": dateForNewsToday,
             "sortBy": "popularity",
             "apiKey": keyAPI
         ]
@@ -117,7 +117,12 @@ class NetworkManagerImpl: NetworkManager {
     }
 }
 
-private func convertCurrentDateToString() -> String {
+private enum Days {
+    case today
+    case yesterday
+}
+// доработать работу с месяццами
+private func convertCurrentDateToString(day: Days) -> String {
     let date = NSDate()
     let formatter = DateFormatter()
     formatter.dateFormat = "dd"
@@ -126,8 +131,14 @@ private func convertCurrentDateToString() -> String {
     let theDayBefore = "-\(Int(dayCurrent)! - 1 )"
     formatter.dateFormat = "yyyy-MM"
     let newYearAndMonth = formatter.string(from: date as Date)
-    let dateForNews = newYearAndMonth + dayCurrent
-    return dateForNews
+    switch day {
+    case .today :
+        let dateForNews = newYearAndMonth + dayCurrent
+        return dateForNews
+    case .yesterday:
+        let dateForNews = newYearAndMonth + theDayBefore
+        return dateForNews
+    }
 }
 
 private extension NetworkManagerImpl {
