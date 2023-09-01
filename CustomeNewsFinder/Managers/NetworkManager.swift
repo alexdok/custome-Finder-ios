@@ -19,7 +19,7 @@ class NetworkManagerImpl: NetworkManager {
     private let requestBilder: RequestBuilder
     lazy var cacheDataSource: NSCache<AnyObject, UIImage> = {
         let cache = NSCache<AnyObject, UIImage>()
-        cache.countLimit = 15
+        cache.countLimit = 20
         return cache
     }()
     
@@ -30,7 +30,7 @@ class NetworkManagerImpl: NetworkManager {
     
     func sendRequestForNews( theme: String, page: Int, completion: @escaping ([ObjectNewsData?]) -> Void) {
         let sessionConfig = URLSessionConfiguration.default
-        let session = URLSession(configuration: sessionConfig, delegate: nil, delegateQueue: nil)
+        let session = URLSession(configuration: sessionConfig)
         let URLParams = createParamsForRequest(theme: theme, keyAPI: Constants.apiKey, page: page)
         guard let request = requestBilder.createRequestFrom(url: Constants.url, params: URLParams) else { return }
         
@@ -39,7 +39,14 @@ class NetworkManagerImpl: NetworkManager {
                 do {
                     let news = try JSONDecoder().decode(News.self, from: data)
                     let objectNews = self.mapper.map(news)
-                    completion(objectNews)
+                    var objectNewsFinish = [ObjectNewsData]()
+                    for n in objectNews {
+                        print(n)
+                        if n?.title != nil {
+                            objectNewsFinish.append(n ?? ObjectNewsData())
+                        }
+                    }
+                    completion(objectNewsFinish)
                 } catch {
                     print(error)
                     let obj: [ObjectNewsData?] = [nil]
@@ -101,7 +108,8 @@ class NetworkManagerImpl: NetworkManager {
             "language": "en",
             "pageSize": "20",
             "page": pageToString,
-            "from": dateForNews,
+            "from": "2023-08-31",
+            "to": dateForNews,
             "sortBy": "popularity",
             "apiKey": keyAPI
         ]
@@ -113,11 +121,12 @@ private func convertCurrentDateToString() -> String {
     let date = NSDate()
     let formatter = DateFormatter()
     formatter.dateFormat = "dd"
-    let dayCurrent = formatter.string(from: date as Date)
+    var dayCurrent = formatter.string(from: date as Date)
+    dayCurrent.insert("-", at: dayCurrent.startIndex)
     let theDayBefore = "-\(Int(dayCurrent)! - 1 )"
     formatter.dateFormat = "yyyy-MM"
     let newYearAndMonth = formatter.string(from: date as Date)
-    let dateForNews = newYearAndMonth + theDayBefore
+    let dateForNews = newYearAndMonth + dayCurrent
     return dateForNews
 }
 

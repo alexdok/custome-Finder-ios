@@ -77,6 +77,7 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
     
     @objc func refresh(_ sender: AnyObject) {
         viewModel?.reloadData()
+        tableNews.reloadData()
         refreshControl.endRefreshing()
     }
 }

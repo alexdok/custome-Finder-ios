@@ -19,7 +19,6 @@ extension TableViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsTableViewCell", for: indexPath) as? NewsTableViewCell else { print("fatalError(canot create cell)")
             return UITableViewCell()
         }
-        
         guard let data = viewModel?.data else { return UITableViewCell() }
         if let dataCell = data[indexPath.row] {
             cellConfig(data: dataCell, cell: cell)
