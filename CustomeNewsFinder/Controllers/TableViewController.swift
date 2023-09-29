@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TableViewController: UIViewController, UISearchBarDelegate {
+final class TableViewController: UIViewController {
     
     var viewModel: TableViewModel?
     let tableNews = UITableView()
@@ -33,7 +33,7 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func bind() {
+   private func bind() {
         if !(viewModel?.viewIsReady() ?? true) {
             createAlertController()
         }
@@ -46,13 +46,13 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
         })
     }
     
-    func setupRefreshController() {
+    private  func setupRefreshController() {
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         tableNews.addSubview(refreshControl)
     }
     
-    func configureTableNews() {
+    private func configureTableNews() {
         tableNews.rowHeight = 150
         tableNews.estimatedRowHeight = UITableView.automaticDimension
         tableNews.dataSource = self
@@ -60,7 +60,7 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
         tableNews.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
     }
     
-    func configureVC() {
+    private  func configureVC() {
         view.backgroundColor = .white
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -82,7 +82,7 @@ final class TableViewController: UIViewController, UISearchBarDelegate {
     }
 }
 
-extension TableViewController {
+extension TableViewController: UISearchBarDelegate {
     // MARK: - UISearchBarDelegate
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

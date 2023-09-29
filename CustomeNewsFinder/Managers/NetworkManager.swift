@@ -19,7 +19,7 @@ class NetworkManagerImpl: NetworkManager {
     private let requestBilder: RequestBuilder
     lazy var cacheDataSource: NSCache<AnyObject, UIImage> = {
         let cache = NSCache<AnyObject, UIImage>()
-        cache.countLimit = 20
+        cache.countLimit = 80
         return cache
     }()
     
@@ -99,8 +99,8 @@ class NetworkManagerImpl: NetworkManager {
 
     private func createParamsForRequest(theme: String, keyAPI: String, page: Int) -> [String: String] {
         let pageToString = String(page)
-        let dateForNewsToday = convertCurrentDateToString(day: .today)
-        let dateForNewsYesterday = convertCurrentDateToString(day: .yesterday)
+        let dateForNewsToday = convertDateToString(day: .today)
+        let dateForNewsYesterday = convertDateToString(day: .yesterday)
         
         let URLParams = [
             "q": theme,
@@ -108,7 +108,7 @@ class NetworkManagerImpl: NetworkManager {
             "language": "en",
             "pageSize": "20",
             "page": pageToString,
-            "from": dateForNewsYesterday,
+            "from": "2023-09-01",
             "to": dateForNewsToday,
             "sortBy": "popularity",
             "apiKey": keyAPI
@@ -122,7 +122,7 @@ private enum Days {
     case yesterday
 }
 // доработать работу с месяццами
-private func convertCurrentDateToString(day: Days) -> String {
+private func convertDateToString(day: Days) -> String {
     let date = NSDate()
     let formatter = DateFormatter()
     formatter.dateFormat = "dd"
