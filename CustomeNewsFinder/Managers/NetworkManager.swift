@@ -108,7 +108,7 @@ class NetworkManagerImpl: NetworkManager {
             "language": "en",
             "pageSize": "20",
             "page": pageToString,
-            "from": "2023-10-01",
+            "from": dateForNewsYesterday,
             "to": dateForNewsToday,
             "sortBy": "popularity",
             "apiKey": keyAPI
